@@ -10,6 +10,22 @@ class config_app_server
       source  => '/repo/vagrant/resources/app/etc/apache2/sites-available/default'
   }
 
+  file 
+  {
+    'SSLCertificateFile':
+      path    => '/etc/ssl/certs/server.crt',
+      ensure  => present,
+      source  => '/repo/vagrant/resources/app/etc/ssl/certs/server.crt'
+  }
+
+  file 
+  {
+    'SSLCertificateKeyFile':
+      path    => '/etc/ssl/private/server.key',
+      ensure  => present,
+      source  => '/repo/vagrant/resources/app/etc/ssl/private/server.key'
+  }
+
   exec
   {
 	'apache2.mods':
@@ -62,13 +78,6 @@ class config_app_server
 
   file 
   {
-    'project.basedir':
-      path    => '/repo/vagrant/project',
-      ensure  => directory
-  }
-
-  file 
-  {
     'system.logdir':
       path    => '/repo/vagrant/log',
       ensure  => directory
@@ -81,5 +90,4 @@ class config_app_server
       ensure  => directory,
       require => File['system.logdir']
   }
-
 }

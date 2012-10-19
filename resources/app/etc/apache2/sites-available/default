@@ -1,6 +1,4 @@
 <VirtualHost *:80>
-        ServerAdmin webmaster@localhost
-
         DocumentRoot /repo/web
         <Directory />
                 Options FollowSymLinks
@@ -23,3 +21,52 @@
         CustomLog /repo/vagrant/log/apache2/access.log combined
 
 </VirtualHost>
+
+
+<VirtualHost *:80>
+    ServerName b2c.itembase.com
+
+    DocumentRoot /repo/web
+    <Directory /repo/web>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteRule ^(.*)$ /app.php [QSA,L]
+        </IfModule>
+    </Directory>
+</VirtualHost>
+
+<IfModule mod_ssl.c>
+<VirtualHost _default_:443>
+        ServerName b2c.itembase.com
+
+        DocumentRoot /repo/web
+        <Directory /repo/web>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+                <IfModule mod_rewrite.c>
+                    RewriteEngine On
+                    RewriteCond %{REQUEST_FILENAME} !-f
+                    RewriteRule ^(.*)$ /app_dev.php [QSA,L]
+                </IfModule>
+        </Directory>
+
+        #   SSL Engine Switch:
+        #   Enable/Disable SSL for this virtual host.
+        SSLEngine on
+
+        #   A self-signed (snakeoil) certificate can be created by installing
+        #   the ssl-cert package. See
+        #   /usr/share/doc/apache2.2-common/README.Debian.gz for more info.
+        #   If both key and certificate are stored in the same file, only the
+        #   SSLCertificateFile directive is needed.
+        SSLCertificateFile /etc/ssl/certs/server.crt
+        SSLCertificateKeyFile /etc/ssl/private/server.key
+</VirtualHost>
+</IfModule>
