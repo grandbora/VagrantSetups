@@ -1,0 +1,7 @@
+[submodule "modules/apache"]
+	path = modules/apache
+	url = git://github.com/vurbia/puppet-apache.git
+[submodule "modules/php"]
+	path = modules/php
+	url = git://github.com/vurbia/puppet-php.git
+
