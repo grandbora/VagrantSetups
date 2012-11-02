@@ -2,6 +2,11 @@
 class package_app_server
 {
 
+  package {
+    'curl':
+      ensure => present;
+  }
+
   package
   {
     'sendmail':
